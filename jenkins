@@ -1,0 +1,26 @@
+node{
+
+def mavenHome = tool name: "maven 3.9.4"
+
+//checkout stage
+stage('checkout code'){
+git branch: 'development', credentialsId: 'git cred', url: 'https://github.com/Organi2/maven-web-application.git'
+}
+
+//build stage
+stage('build'){
+bat "$mavenHome/bin mvn clean package"
+}
+
+//sonarqube report
+
+stage('generatesonar'){
+bat "$mavenHome/bin/mvn sonar:sonar"
+}
+
+//upload to artifactory repo
+stage('upload artifact'){
+bat "$mavenHome/bin/mvn deploy"
+}
+
+}
