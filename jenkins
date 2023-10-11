@@ -9,7 +9,7 @@ git branch: 'development', credentialsId: 'git cred', url: 'https://github.com/O
 
 //build stage
 stage('build'){
-bat "$mavenHome/bin mvn clean package"
+bat "$mavenHome/bin/mvn clean package"
 }
 
 //sonarqube report
