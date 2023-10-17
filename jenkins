@@ -40,6 +40,7 @@ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKe
 try{
 //checkout stage
 stage('checkout code'){
+notifyBuild('STARTED')
 git branch: 'development', credentialsId: 'git cred', url: 'https://github.com/Organi2/maven-web-application.git'
 }
 
