@@ -37,6 +37,7 @@ buildName 'Dev -${BUILD_NUMBER}'
 buildDescription 'pipeline scripted way'
 
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')), [$class: 'JobLocalConfiguration', changeReasonComment: '']])
+try{
 //checkout stage
 stage('checkout code'){
 git branch: 'development', credentialsId: 'git cred', url: 'https://github.com/Organi2/maven-web-application.git'
@@ -56,6 +57,15 @@ bat "$mavenHome/bin/mvn sonar:sonar"
 //upload to artifactory repo
 stage('upload artifact'){
 bat "$mavenHome/bin/mvn deploy"
+}
+
+
+}
+catch(e){
+currentBuild.result='FAILED'
+}
+finally{
+notifyBuild(currentBuild.result)
 }
 
 }
